@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rajveer Singh - Portfolio</title>
+    <style>
+        /* CSS Variables for Themes */
+        :root, [data-theme="dark"] {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --container-bg: #1e1e1e;
+            --accent-color: #00d2ff;
+            --button-bg: #00d2ff;
+            --button-text: #121212;
+            --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --border-style: 1px solid #333;
+            --shadow: 0 4px 10px rgba(0,0,0,0.5);
+            --hover-shadow: 0 8px 20px rgba(0, 210, 255, 0.2);
+        }
+
+        [data-theme="light"] {
+            --bg-color: #f4f5f7;
+            --text-color: #333333;
+            --container-bg: #ffffff;
+            --accent-color: #0056b3;
+            --button-bg: #0056b3;
+            --button-text: #ffffff;
+            --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --border-style: 1px solid #ddd;
+            --shadow: 0 4px 6px rgba(0,0,0,0.1);
+            --hover-shadow: 0 8px 15px rgba(0, 86, 179, 0.2);
+        }
+
+        [data-theme="cyberpunk"] {
+            --bg-color: #0d0221;
+            --text-color: #00ffcc;
+            --container-bg: #1a0a2e;
+            --accent-color: #ff00ff;
+            --button-bg: #fcee09;
+            --button-text: #000000;
+            --font-family: 'Courier New', Courier, monospace;
+            --border-style: 2px solid #00ffcc;
+            --shadow: 5px 5px 0px #ff00ff;
+            --hover-shadow: 8px 8px 0px #00ffcc;
+        }
+
+        [data-theme="neon-synth"] {
+            --bg-color: #0b0c10;
+            --text-color: #c5c6c7;
+            --container-bg: #1f2833;
+            --accent-color: #66fcf1;
+            --button-bg: #45a29e;
+            --button-text: #0b0c10;
+            --font-family: 'Verdana', sans-serif;
+            --border-style: 1px solid #66fcf1;
+            --shadow: 0 0 15px rgba(102, 252, 241, 0.2);
+            --hover-shadow: 0 0 25px rgba(102, 252, 241, 0.6);
+        }
+
+        [data-theme="nature"] {
+            --bg-color: #e8f5e9;
+            --text-color: #2e7d32;
+            --container-bg: #ffffff;
+            --accent-color: #388e3c;
+            --button-bg: #4caf50;
+            --button-text: #ffffff;
+            --font-family: 'Georgia', serif;
+            --border-style: 1px solid #a5d6a7;
+            --shadow: 0 4px 6px rgba(0, 50, 0, 0.1);
+            --hover-shadow: 0 8px 15px rgba(76, 175, 80, 0.3);
+        }
+        
+        [data-theme="ocean"] {
+            --bg-color: #e0f7fa;
+            --text-color: #006064;
+            --container-bg: #ffffff;
+            --accent-color: #00acc1;
+            --button-bg: #00bcd4;
+            --button-text: #ffffff;
+            --font-family: 'Trebuchet MS', sans-serif;
+            --border-style: 1px solid #b2ebf2;
+            --shadow: 0 4px 6px rgba(0, 100, 150, 0.1);
+            --hover-shadow: 0 8px 15px rgba(0, 188, 212, 0.3);
+        }
+
+        /* Global Styles & Animations */
+        @keyframes fadeInSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 5px var(--accent-color); }
+            50% { box-shadow: 0 0 20px var(--accent-color); }
+            100% { box-shadow: 0 0 5px var(--accent-color); }
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-family);
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.5s ease, color 0.5s ease;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background-color: var(--container-bg);
+            box-shadow: var(--shadow);
+            border-bottom: var(--border-style);
+            transition: all 0.5s ease;
+        }
+
+        h1, h2, h3 {
+            color: var(--accent-color);
+            margin-top: 0;
+            transition: color 0.5s ease;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 2.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .theme-selector {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+        }
+
+        select {
+            padding: 8px 12px;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            border: 1px solid var(--accent-color);
+            border-radius: 4px;
+            font-family: var(--font-family);
+            cursor: pointer;
+            outline: none;
+            transition: all 0.3s ease;
+            max-width: 100%;
+        }
+        
+        select:hover {
+            box-shadow: 0 0 10px var(--accent-color);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+            flex-grow: 1;
+        }
+
+        section {
+            background-color: var(--container-bg);
+            padding: 35px;
+            margin-bottom: 40px;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            border: var(--border-style);
+            opacity: 0;
+            animation: fadeInSlideUp 0.8s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            transition: transform 0.4s ease, box-shadow 0.4s ease, background-color 0.5s ease;
+        }
+        
+        /* Staggered animation delays for sections */
+        section:nth-child(1) { animation-delay: 0.1s; }
+        section:nth-child(2) { animation-delay: 0.3s; }
+        section:nth-child(3) { animation-delay: 0.5s; }
+
+        section:hover {
+            transform: translateY(-8px) scale(1.01);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .placeholder-text {
+            background-color: rgba(128, 128, 128, 0.1);
+            padding: 20px;
+            border-left: 4px dashed var(--accent-color);
+            opacity: 0.9;
+            margin-bottom: 25px;
+            font-size: 1.1rem;
+            transition: border-color 0.5s ease;
+            word-wrap: break-word;
+        }
+
+        [data-theme="cyberpunk"] .placeholder-text {
+            border-left: 4px solid var(--accent-color);
+        }
+
+        a.btn {
+            display: inline-block;
+            background-color: var(--button-bg);
+            color: var(--button-text);
+            padding: 12px 24px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 2px solid transparent;
+        }
+
+        a.btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            filter: brightness(1.15);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        /* Theme specific interactive overrides */
+        [data-theme="cyberpunk"] a.btn {
+            border-radius: 0;
+            border: 2px solid #fcee09;
+        }
+        [data-theme="cyberpunk"] a.btn:hover {
+            background-color: #ff00ff;
+            color: #fff;
+            border-color: #00ffcc;
+            box-shadow: 5px 5px 0px #00ffcc;
+            transform: translate(-3px, -3px);
+        }
+        [data-theme="cyberpunk"] section { border-radius: 0; }
+        [data-theme="cyberpunk"] select { border-radius: 0; }
+
+        [data-theme="neon-synth"] a.btn:hover {
+            animation: pulseGlow 1.5s infinite;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 25px;
+            background-color: var(--container-bg);
+            border-top: var(--border-style);
+            margin-top: auto;
+            color: var(--text-color);
+            transition: all 0.5s ease;
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
+        }
+        
+        footer p {
+            margin: 5px 0;
+            font-size: 0.95rem;
+            opacity: 0.8;
+        }
+
+        footer .highlight {
+            color: var(--accent-color);
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        /* ==================================================== */
+        /* MOBILE RESPONSIVENESS (Media Queries)                */
+        /* ==================================================== */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column; /* Stack header items vertically */
+                padding: 20px;
+                gap: 15px;
+                text-align: center;
+            }
+
+            h1 {
+                font-size: 1.8rem; /* Slightly smaller text for phones */
+            }
+
+            .theme-selector {
+                flex-direction: column;
+                gap: 5px;
+                width: 100%;
+            }
+
+            select {
+                width: 100%; /* Make dropdown full width on mobile */
+                max-width: 300px;
+            }
+
+            .container {
+                margin: 20px auto;
+                padding: 0 15px;
+            }
+
+            section {
+                padding: 25px 20px; /* Reduce padding inside boxes */
+                margin-bottom: 30px;
+            }
+            
+            section:hover {
+                transform: translateY(-4px) scale(1.0); /* Less aggressive hover scale on mobile */
+            }
+
+            .placeholder-text {
+                font-size: 1rem;
+                padding: 15px;
+            }
+
+            a.btn {
+                display: block; /* Make buttons take up full width */
+                text-align: center;
+                width: 100%;
+                box-sizing: border-box;
+            }
+            
+            [data-theme="cyberpunk"] a.btn:hover {
+                transform: translate(-2px, -2px); /* Toned down cyberpunk movement for mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Rajveer Singh</h1>
+        <div class="theme-selector">
+            <label for="theme">SELECT THEME:</label>
+            <select id="theme" onchange="changeTheme()">
+                <option value="dark">Modern Dark (Default)</option>
+                <option value="light">Clean Light</option>
+                <option value="cyberpunk">Cyberpunk 2077</option>
+                <option value="neon-synth">Neon Synthwave</option>
+                <option value="nature">Nature Green</option>
+                <option value="ocean">Deep Ocean</option>
+            </select>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <!-- SECTION 1: UNITY GAME -->
+        <section id="unity-game">
+            <h2>My Unity Game</h2>
+            <div class="placeholder-text">
+                One of my achievements so far is completing a game in unity game engine. This project uses my passion for coding and turns it into an experience. Through this project I just did not improve my skills in Coding. I also learned about how to document my work properly. I learned that when universities or job employers look at your game project they also look at if you documented how you made the game. If you document everything you can look back at your project and reflect on it. Reflection is very important in any kind of project because you can look at your mistakes and improve them. My goal in Unity game development is to make a game with a complex NPC system. An NPC stands for Non-Player Character. In games, it refers to any character that is controlled by the game's computer programming or AI rather than by a human player. 
+
+            </div>
+            <a href="https://play.unity.com/en/games/4388b302-ab3d-4e34-ab10-6dcc5d90bd48/sand-game" target="_blank" class="btn">Play Sand Game</a>
+        </section>
+
+        <!-- SECTION 2: ROBOTICS -->
+        <section id="robotics">
+            <h2>Robotics</h2>
+            <div class="placeholder-text">
+                Beyond game development, my passion is robotics. Robotics is one of my favorites because it incorporates a lot of skills I have. In robots you have to find a problem and create a solution around it. Before you make a robot you have to follow the design process. First you have to ask what your robot needs to do, second you need to design an idea on how you are going to fix that problem, third you have to make the robot, fourth you have to test the robot and finally you improve your robot using your testing results. I like to make the robot using the design process and I also like coding the robot. Below is an example of my robot design book from last year. My goal for robotics is to go to robotic world championships before I graduate seaquam. 
+
+            </div>
+            <br>
+            <a href="https://docs.google.com/presentation/d/17YjTkkvNC6UIEzoFzPTITvApsIPUmvOQNuCsFgMnRwQ/edit?usp=sharing" target="_blank" class="btn">View Robotics Design Book</a>
+        </section>
+
+        <!-- SECTION 3: FEEDBACK & GROWTH -->
+        <section id="feedback-growth">
+            <h2>Feedback & Growth</h2>
+            <div class="placeholder-text">
+               I constantly take feedback from my teachers and mentors. Taking Feedback is a very important part of growth. When you take feedback from your seniors you learn from their experiences and the mistakes they made to get to the point that they are at. Feedback can help you improve your projects and elevate the quality of your project. Last year in robotics 9 I did not use the design process properly because I thought “What is the point of this “ then my peer touter and my teacher gave me feedback and explained to me the importance of the design process.Another example where i took feedback was when i made my game i showed it to my mentor and my mentor told me the importance of documentation and how employers and universities look at documentation along with your game.
+
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 <span class="highlight">Rajveer Singh</span></p>
+        <p>Driven by Curiosity | C# Developer & Robotics Enthusiast</p>
+    </footer>
+
+    <script>
+        function changeTheme() {
+            const theme = document.getElementById('theme').value;
+            document.documentElement.setAttribute('data-theme', theme);
+        }
+    </script>
+</body>
+</html>
